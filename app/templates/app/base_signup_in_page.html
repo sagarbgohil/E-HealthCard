@@ -4,15 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-        <link rel="icon" href="{% static 'eCard/logo.png' %}"  sizes="16*16" type="image/icon type">
+        <link rel="icon" href="{% static 'app/logo.png' %}"  sizes="16*16" type="image/icon type">
         <title> E Heathcard-{{ title }}</title>
         <style>
             html{
                 scroll-behavior: smooth;
+                overflow-y: scroll;
+            }
+            html::-webkit-scrollbar {
+                display: none;
             }
             body{
                 font-family: 'Vollkorn', serif;
-                background-color: #272727;
+                background-image: linear-gradient(to left, #97d3e0, #8bcde3, #82c5e6, #7ebee8, #7eb5e9, #78b8ee, #71bcf3, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
                 color: #66FCF1;
                 user-select: none;
                 opacity: 0.95;
@@ -51,7 +55,7 @@
             }
         </style>
     </head>
-    <body background="{% static 'eCard/login_wall_image.png' %}">
+    <body>
         <div class="container box mb-5">         
             {% block content %}
             {% endblock content %}
@@ -61,7 +65,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>   
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-        <script src="{% static 'eCard/validation.js' %}"></script>
+        <script src="{% static 'app/validation.js' %}"></script>
         <script>
             let count = 0;
             function myFunction(){

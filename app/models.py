@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Patient(models.Model):
-    patient_id = models.AutoField(primary_key=True, default=0)
+    patient_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     email_id = models.CharField(max_length=20)
     birth_date = models.DateField()
@@ -15,8 +15,9 @@ class Patient(models.Model):
     state = models.CharField(max_length=10)
     country = models.CharField(max_length=10)
     pincode = models.BigIntegerField()
+    password = models.CharField(max_length=40, default="")
     def __str__(self):
-        return self.patient_id
+        return str(self.patient_id)
 
 class PhoneNumber(models.Model):
     phone_number_id = models.CharField(max_length=10, primary_key=True, default='PN0001')
@@ -27,7 +28,7 @@ class PhoneNumber(models.Model):
 
 class Doctor(models.Model):
     doctor_id = models.AutoField(primary_key=True, default=0)
-    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE, default="")
+    patient_id = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
     hospital_name = models.CharField(max_length=20, default="")
     designation = models.CharField(max_length=20, default="")
     licence_id = models.CharField(max_length=20, default="")    
@@ -48,7 +49,7 @@ class File(models.Model):
 
 class HealthInfo(models.Model):
     health_id = models.AutoField(primary_key=True, default=0)
-    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient_id = models.OneToOneField(Patient, on_delete=models.CASCADE)
     height = models.BigIntegerField()
     weight = models.BigIntegerField()
     blood_grp = models.CharField(max_length=5)
@@ -57,7 +58,7 @@ class HealthInfo(models.Model):
     def __str__(self):
         return str(self.health_id)
 
-class AllergiesTable(models.Model):
+class Allergies(models.Model):
     allergies_id = models.AutoField(primary_key=True, default=0)
     health_id = models.ForeignKey(HealthInfo, on_delete=models.CASCADE)
     allergies = models.CharField(max_length=30)
@@ -66,7 +67,7 @@ class AllergiesTable(models.Model):
 
 class Paramedics(models.Model):
     paramedics_id = models.AutoField(primary_key=True, default=0)
-    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient_id = models.OneToOneField(Patient, on_delete=models.CASCADE)
     vehicle_licence_num = models.BigIntegerField()
     def __str__(self):
         return str(self.paramedics_id)
@@ -88,11 +89,10 @@ class Admin(models.Model):
     def __str__(self):
         return str(self.admin_id)
 
-
 class VerifiedBy(models.Model):
     verified_by_id = models.AutoField(primary_key=True, default=0)
     admin_id = models.ForeignKey(Admin, on_delete=models.CASCADE)
-    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doctor_id = models.OneToOneField(Doctor, on_delete=models.CASCADE)
     date = models.DateField()
     def __str__(self):
         return str(self.admin_id)

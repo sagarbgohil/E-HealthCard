@@ -1,4 +1,4 @@
-{% extends 'eCard/base_signup_in_page.html' %}
+{% extends 'app/base_signup_in_page.html' %}
 {% block content %}
 <div class="heading mt-5 pb-4"> 
                 <div>
@@ -6,7 +6,8 @@
                 </div>
                 <hr>
                 <div class="regiForm">
-                    <form action="#" id="registrationForm" name="registrationForm" autocomplete="on" method="POST"> 
+                    <form action="#" id="registrationForm" name="registrationForm" autocomplete="off" method="POST"> 
+                        {% csrf_token %}
                         <div class="row g-3 d-flex align-items-center justify-content-center">
                             <div class="col-md-3">
                                 <label for="fname">First Name:</label>
@@ -14,36 +15,36 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="mname">Middle Name:</label>
-                                <input style="background-color: #1F2833; color: white;" type="text" class="form-control shadow-none mt-1" name="mname" id="mname" placeholder="Middle Name" aria-describedby="mnameHelpBlock" autofocus>    
+                                <input style="background-color: #1F2833; color: white;" type="text" class="form-control shadow-none mt-1" name="mname" id="mname" placeholder="Middle Name" aria-describedby="mnameHelpBlock">    
                             </div>
                             <div class="col-md-3">
                                 <label for="lname">Last Name:</label>
-                                <input style="background-color: #1F2833; color: white;" type="text" class="form-control shadow-none mt-1" name="lname" id="lname" placeholder="Last Name" aria-describedby="lnameHelpBlock" autofocus>    
+                                <input style="background-color: #1F2833; color: white;" type="text" class="form-control shadow-none mt-1" name="lname" id="lname" placeholder="Last Name" aria-describedby="lnameHelpBlock">    
                             </div>
                             <div class="col-md-9 mt-3">
                                 <label for="email_id">Email:</label>
-                                <input style="background-color: #1F2833; color: white;" type="email" class="form-control shadow-none mt-1" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus>
+                                <input style="background-color: #1F2833; color: white;" type="email" class="form-control shadow-none mt-1" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock">
                                 <div id="emailHelpBlock" class="form-text">
                                     Example: xyz@domain.com
                                 </div>
                             </div>
                             <div class="col-md-9 mt-3">
                                 <label for="bdate">Birthdate:</label>
-                                <input style="background-color: #1F2833; color: white;" type="date" class="form-control shadow-none mt-1" name="bdate" id="bdate" placeholder="DD/MM/YYYY" aria-describedby="bdateHelpBlock" autofocus>
+                                <input style="background-color: #1F2833; color: white;" type="date" class="form-control shadow-none mt-1" name="bdate" id="bdate" placeholder="DD/MM/YYYY" aria-describedby="bdateHelpBlock">
                                 <div id="emailHelpBlock" class="form-text">
                                     Enter Birthdate.
                                 </div>
                             </div>
                             <div class="col-md-9 mt-3">
                                 <label for="adhaar">Enter Aadharcard number:</label>
-                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="adhaar" id="adhaar" placeholder="000000000000" aria-describedby="aadharHelpBlock" autofocus>
+                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="adhaar" id="adhaar" placeholder="000000000000" aria-describedby="aadharHelpBlock">
                                 <div id="aadharHelpBlock" class="form-text">
                                     Enter your 12 digit aadharcard number.
                                 </div>
                             </div>
                             <div class="col-md-9 mt-3">
                                 <label for="phone">Enter Phone number:</label>
-                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="phone" id="phone" placeholder="0000000000" aria-describedby="phoneHelpBlock" autofocus>
+                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="phone" id="phone" placeholder="0000000000" aria-describedby="phoneHelpBlock">
                                 <div id="phoneHelpBlock" class="form-text">
                                     Enter your 10 digit Moblie number.
                                 </div>
@@ -97,7 +98,7 @@
                             </div>   
                             <div class="col-md-9 mt-3">
                                 <label for="pincode">Enter Pincode:</label>
-                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="pincode" id="pincode" placeholder="000000" aria-describedby="pincodeHelpBlock" autofocus>
+                                <input style="background-color: #1F2833; color: white;" type="number" class="form-control shadow-none mt-1" name="pincode" id="pincode" placeholder="000000" aria-describedby="pincodeHelpBlock">
                                 <div id="pincodeHelpBlock" class="form-text">
                                     Enter your 6 digit Pincode number.
                                 </div>
@@ -132,7 +133,7 @@
             </div>
             <div class="mt-3  fs-7">
                 <div class="float-sm-end">
-                    Have an account? <a class="text-decoration-none" href="{% url 'login' %}">Sign In</a>
+                     <span style="color: black !important;">Have an account? </span><a class="text-decoration-none" href="{% url 'login' %}">Sign In</a>
                 </div>
             </div>
         {% endblock content %}

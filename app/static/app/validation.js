@@ -43,8 +43,8 @@ $("#registrationForm").validate({
       },
       adhaar:{
           required: true,
-          minlength: 10,
-          maxlength: 10
+          minlength: 12,
+          maxlength: 12
       },
       add:{
         required: true
@@ -56,12 +56,12 @@ $("#registrationForm").validate({
           required: true,
           minlength: 10,
           maxlength: 10
-    },
-    pincode: {
-        required: true,
-        minlength: 6,
-        maxlength: 6
-    },
+      },
+      pincode: {
+          required: true,
+          minlength: 6,
+          maxlength: 6
+      },
       cpassword:{
         required: true,
         minlength: 8,
