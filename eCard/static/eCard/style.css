@@ -1,0 +1,36 @@
+html.loder{
+    scroll-behavior: smooth;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+body.loder{
+    font-family: 'Vollkorn', serif;
+    background-image: linear-gradient(to left top, #42442f, #2f3f2f, #1e3831, #133032, #112730, #12252f, #14242e, #15222c, #17272e, #1a2b30, #1e3032, #243433);
+    color: #66FCF1;
+    user-select: none;
+    opacity: 0.95;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+img.logo{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: blink normal 2s infinite ease-in-out;
+}
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+div.logo{
+    position: relative;
+}
