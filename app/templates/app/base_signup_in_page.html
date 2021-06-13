@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="icon" href="{% static 'app/logo.png' %}"  sizes="16*16" type="image/icon type">
         <title> E Heathcard-{{ title }}</title>
         <style>
@@ -16,24 +17,32 @@
             }
             body{
                 font-family: 'Vollkorn', serif;
-                background-image: linear-gradient(to left, #97d3e0, #8bcde3, #82c5e6, #7ebee8, #7eb5e9, #78b8ee, #71bcf3, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-                color: #66FCF1;
+                /* background-color: #2c343f; */
+                background-color:  #DDAF94;
+                /* color: #66FCF1; */
                 user-select: none;
                 opacity: 0.95;
                 background-attachment: fixed;
                 background-repeat: no-repeat;
                 background-size: cover;
             }
+            .isa_error {
+                color: #D8000C;
+                margin:10px 22px;
+                font-size:2em;
+                vertical-align:middle;
+            }
             .error{
-                color: Red;
+                color: brown;  
+;
             }
             div.box{
                 width: 50%;
             }
             div.heading{
-                background-color: #1F2833;
+                background-color:  #F5DEB3;
                 border-radius: 9px;
-                box-shadow: 0px 0px 10px gray;
+                box-shadow: 0px 0px 10px #F5DEB3;
             }
             div.loginForm {
                 margin-top: 25px;
@@ -41,8 +50,8 @@
             }
             input[type=email]:focus,[type=checkbox]:focus,[type=text]:focus,[type=submit]:focus,[type=password]:focus {
                 
-                border: 3px solid #555;
-                border-color: rgba(81, 203, 238, 1);
+                border: 3px solid #F5DEB3;
+                border-color: black;
                 resize: vertical;
             }
             input[type=number]::-webkit-inner-spin-button,

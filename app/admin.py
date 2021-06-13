@@ -11,4 +11,5 @@ admin.site.register(Allergies)
 admin.site.register(Metadata)
 admin.site.register(Admin)
 admin.site.register(VerifiedBy)
+admin.site.register(Paramedics)
 

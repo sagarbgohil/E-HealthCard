@@ -22,7 +22,77 @@ $("#myForm").validate({
   // Make sure the form is submitted to the destination defined
   // in the "action" attribute of the form when valid
 });
-
+$("#doctorForm").validate({
+  rules: {
+    email_id: {
+      required: true,
+      //   email: true
+    }
+  },
+  messages: {
+    email_id: "Please enter a valid email address"
+  }
+});
+$("#doctorFormReg").validate({
+  rules: {
+    hospital_name: {
+      required: true
+      //   email: true
+    },
+    designation: {
+      required: true
+      //   email: true
+    },
+    licence_id: {
+      maxlength: 15,
+      minlength: 15,
+      required: true
+      //   email: true
+    },
+    patient_id: {
+      maxlength: 10,
+      minlength: 10,
+      required: true
+    }
+  },
+  messages: {
+    hospital_name: "Please enter hospital name",
+    designation: "Please enter designation",
+    licence_id: {
+      maxlength: "please enter 15 digit licence_id",
+      minlength: "please enter 15 digit licence_id"
+    },
+    patient_id: {
+      maxlength: "please enter 10 digit patient_id",
+      minlength: "please enter 10 digit patient_id"
+    }
+  }
+});
+$("#peramedicsForm").validate({
+  rules: {
+    licence_id: {
+      maxlength: 15,
+      minlength: 15,
+      required: true
+      //   email: true
+    },
+    patient_id: {
+      maxlength: 10,
+      minlength: 10,
+      required: true
+    }
+  },
+  messages: {
+    licence_id: {
+      maxlength: "please enter 15 digit licence_id",
+      minlength: "please enter 15 digit licence_id"
+    },
+    patient_id: {
+      maxlength: "please enter 10 digit patient_id",
+      minlength: "please enter 10 digit patient_id"
+    }
+  }
+});
 $("#registrationForm").validate({
     // Specify validation rules
     rules: {

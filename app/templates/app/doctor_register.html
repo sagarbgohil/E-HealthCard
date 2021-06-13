@@ -1,0 +1,47 @@
+{% extends 'app/base_signup_in_page.html' %}    
+{% block content %}
+            <div class="heading mt-5 pb-4"> 
+                <div>
+                    <p style="font-weight: bold;" class="text-center pt-3 fs-3"> Doctor Request </p>
+                </div>
+                <hr>
+                <div class="loginForm">
+                    <form action="#" id="doctorFormReg" name="doctorFormReg" autocomplete="off" method="POST"> 
+                        {% csrf_token %}
+                        <div class="row g-6 d-flex align-items-center justify-content-center">
+                            <div class="col-md-9">
+                                <label for="patient_id">Patient Id:</label>
+                                <input style="background-color: #F5DEB3; color: black; border: 1px solid;" type="text" class="form-control shadow-none mt-1" name="patient_id" id="patient_id" placeholder="Enter Hospital Name" aria-describedby="patientIdHelpBlock" autofocus>
+                                <div id="patientIdHelpBlock" class="form-text">
+                                    Enter Patient id
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <label for="hospital_name">Hospital Name:</label>
+                                <input style="background-color: #F5DEB3; color: black; border: 1px solid;" type="text" class="form-control shadow-none mt-1" name="hospital_name" id="hospital_name" placeholder="Enter Hospital Name" aria-describedby="hospiHelpBlock" autofocus>
+                                <div id="hospiHelpBlock" class="form-text">
+                                    Enter Hospital Name
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <label for="designation">Designation:</label>
+                                <input style="background-color: #F5DEB3; color: black; border: 1px solid;" type="text" class="form-control shadow-none mt-1" name="designation" id="designation" placeholder="Enter Designation" aria-describedby="desiHelpBlock" autofocus>
+                                <div id="desiHelpBlock" class="form-text">
+                                    Enter Designation.
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <label for="licence_id">Licence Id:</label>
+                                <input style="background-color: #F5DEB3; color: black; border: 1px solid;" type="number" class="form-control shadow-none mt-1" name="licence_id" id="licence_id" placeholder="Enter Designation" aria-describedby="desiHelpBlock" autofocus>
+                                <div id="desiHelpBlock" class="form-text">
+                                    Enter Licence id.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-grid gap-2 col-4 mx-auto mt-3">
+                            <button style="background-color: #4F4846; color: black;" type="submit" id="btn" class="fw-bold btn shadow-none">Request</button>
+                        </div>         
+                    </form>
+                </div>
+            </div>
+        {% endblock content %} 

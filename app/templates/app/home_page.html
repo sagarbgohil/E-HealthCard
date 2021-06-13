@@ -5,8 +5,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-        <link rel="icon" href="{% static 'app/logo.png' %}"  sizes="16*16" type="image/icon type">
+        <link rel="icon" href="{% static 'app/logo.png' %}"  sizes="16*16" type="image/icon type">  
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'><link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="{% static 'app/style.css' %}">
+        <link rel="stylesheet" href="{% static 'app/box.css' %}">
+        <link rel="stylesheet" href="{% static 'app/footer.css' %}">
+        
+        
         <style>
             .box {
                 margin-left: 0.1mm;
@@ -19,11 +25,19 @@
                 margin-left: 10mm;
             }
             .clr {
-                color: white;
+                color: #266150;
                 transition: 0.3s color;
             }
             .clr:hover{
-                color: khaki;
+                color: black;
+            }
+            .clr2 {
+                text-decoration: none;
+                color: gray;
+                transition: 0.3s color;
+            }
+            .clr2:hover{
+                color: black;
             }
         </style>
     </head> 
@@ -38,7 +52,7 @@
         <!-- Main page -->
         <div id="main" style="visibility: hidden;"> 
             <div class="pt-4">
-                <nav class="mar navbar navbar-expand-lg navbar-dark bg-dark">
+                <nav style="background-color: #FDF8F5; color: #266150;" class="mar navbar navbar-expand-lg">
                     <div class="container-fluid">
                       <ul class="navbar-nav me-auto">
                         <div class="box">
@@ -49,11 +63,11 @@
                       </ul>
                       <div class="d-flex me-5" >
                         <ul class="navbar-nav me-auto">
-                          <div class="box">
-                            <li class="nav-item space">
-                              <a class="navbar-brand clr" href="{% url 'login' %}"> Login </a>
-                            </li>
-                          </div>
+                            <div class="box">
+                              <li class="nav-item space">
+                                <a class="navbar-brand clr" href="{% url 'login' %}"> Login </a>
+                              </li>
+                           </div>
                           <div class="box">
                             <li class="nav-item space">
                               <a class="navbar-brand clr" href="{% url 'register' %}"> Register </a>
@@ -63,15 +77,105 @@
                       </div>
                     </div>
                   </nav>
+          </div>
+          <div class="blog-slider">
+            <div class="blog-slider__wrp swiper-wrapper">
+              <div class="blog-slider__item swiper-slide">
+                <div class="blog-slider__img">
+                  
+                  <img src="{% static 'app/1.jpg' %}" alt="">
+                </div>
+                <div class="blog-slider__content">
+                  <div class="blog-slider__title">E-Healthcard</div>
+                  <div class="blog-slider__text">E-HealthCard digitizes healthcare information for all healthcare consumers and providers globally.</div>
+                </div>
+              </div>
+              <div class="blog-slider__item swiper-slide">
+                <div class="blog-slider__img">
+                  <img src="{% static 'app/2.jpg' %}" alt="">
+                </div>
+                <div class="blog-slider__content">
+                  <div class="blog-slider__title">Team</div>
+                  <div class="blog-slider__text">E-HealthCard has a vibrant and young team that is passionate about changing the way healthcare is managed across the world. Our vision is to bring equality in healthcare delivery through wellness for mankind beyond medicine.</div>
+                </div>
+              </div>
+              
+              <div class="blog-slider__item swiper-slide">
+                <div class="blog-slider__img">
+                  <img src="{% static 'app/3.jpg' %}" alt="">
+                </div>
+                <div class="blog-slider__content">
+                  <div class="blog-slider__title">Mission</div>
+                  <div class="blog-slider__text">E-HealthCard is an organisation that assimilates resources which helps to create a health ecosystem that brings connectivity for unified health management and deliverys.
+                  </div>
+                </div>
+              </div>
+              
             </div>
+            <div class="blog-slider__pagination"></div>
+          </div>
+        <div class="" style="visibility: hidden;">
+          <div style="background-color: #F5DEB3;" class="card mb-4 pb-2 shadow text-dark fw-bold">
+            <div class="row g-3">
+              <div class="col-md-2">
+                <img style="margin-top: 2mm; margin-left: 1mm;" src="{% static 'app/4.png' %}" class="card-img" alt="profile-pic" >
+              </div>
+              <div class="col-md-10">
+                <div class="card-body">
+                  <h5 class="card-title">Secure</h5>
+                  <p class="card-text">Store your data securely on our system!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-
-
-
-
-        </div> 
-        
+          <footer style="background-color: #FDF8F5; color: #266150;" class="site-footer">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <h6 style="color: #266150;" class="fw-bold">About</h6>
+                  <p style="text-align: justify;" class="">E-HealthCard is an organisation that assimilates resources which helps to create a health ecosystem that brings connectivity for unified health management and deliverys. E-HealthCard has a vibrant and young team that is passionate about changing the way healthcare is managed across the world. Our vision is to bring equality in healthcare delivery through wellness for mankind beyond medicine.</p>
+                </div>
+      
+                <div style="margin-left: 12mm;" class="col-xs-8 col-md-3">
+                  <h6 style="color: #266150;" class="fw-bold">Navigate</h6>
+                  <ul class="footer-links">
+                    <li><a class="clr2" href="{% url 'home' %}">Home</a></li>
+                    <li><a class="clr2" href="{% url 'patient' %}">Patient</a></li>
+                    <li><a class="clr2" href="{% url 'doctor' %}">Doctor</a></li>
+                    <li><a class="clr2" href="{% url 'login' %}">Login</a></li>
+                    <li><a class="clr2" href="{% url 'register' %}">Register</a></li>
+                    <li><a class="clr2" href="{% url 'admin:index' %}">Admin</a></li>
+                  </ul>
+                </div>
+      
+                <div class="col-xs-6 col-md-2">
+                  <h6 style="color: #266150;" class="fw-bold">Contact</h6>
+                  <ul class="footer-links">
+                    <li><a class="clr2" href="">Facebook</a></li>
+                    <li><a class="clr2" href="">Twitter</a></li>
+                    <li><a class="clr2" href="">Reddit</a></li>
+                    <li><a class="clr2" href="">Github</a></li>
+                    <li><a class="clr2" href="">LinkedIn</a></li>
+                  </ul>
+                </div>
+              </div>
+              <hr>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                  <p class="copyright-text">Copyright &copy; 2020-21 All Rights Reserved
+                  </p>
+                </div>
+              </div>
+            </div>
+      </footer>
     </body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script>
+    <script src="{% static 'app/box.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         var seconds = 5;
@@ -84,24 +188,8 @@
             return;
         }
         --seconds;
-        }, 750);
+        }, 200);
 
         });
-        // document.onreadystatechange = function() {
-        //     if (document.readyState !== "complete") 
-        //     {
-        //         document.querySelector(
-        //           "body").style.visibility = "hidden";
-        //         document.querySelector(
-        //           "#loder").style.visibility = "visible";
-        //     } 
-        //     else 
-        //     {
-        //         document.querySelector(
-        //           "#loder").style.display = "none";
-        //         document.querySelector(
-        //           "body").style.visibility = "visible";
-        //     }
-        // };
     </script>
 </html>

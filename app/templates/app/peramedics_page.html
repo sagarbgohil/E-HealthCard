@@ -1,0 +1,68 @@
+{% extends 'app/base_patient.html' %}
+{% block content %}
+  <div class="header-profile">
+   <img class="profile-img" src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="">
+  </div>
+ </div>
+ <div class="wrapper">
+  <div class="main-container">
+   <div class="content-wrapper">
+    <div class="content-section">
+     <div class="content-section-title">Data</div>
+     <ul>
+      <li class="adobe-product">
+       <div class="products"> Full Name: </div>
+       <span class="status"> {{ name }} </span>
+       <span class="status"> {{ patient_id }} </span>
+       <div class="button-wrapper">
+        <button class="content-button status-button open">Edit</button>
+        </div>
+      </li>
+      </ul>
+      <ul>
+        <li class="adobe-product">
+         <div class="products"> <label for="email_id">Email:</label> </div>
+         <form action="{% url 'getpatientinfoparamedics' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
+          {% csrf_token %}
+          <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="email" class="form-control shadow-none" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus> </span>
+          <input type="hidden" name="patient_id" value="{{ patient_id }}"  />
+          <input type="hidden" name="name" value="{{ name }}"  />
+          <div style="float: left; margin-left: 102mm;" class="button-wrapper">
+          <button class="content-button status-button open">Find Data</button>
+          </div>
+          </form>
+        </li>
+        </ul>
+        {% if data %}
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Name: </div>
+                <span class="status"> {{ patient_name }} </span>
+            </li>
+        </ul>
+
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Blood Group: </div>
+                <span class="status"> {{ data.blood_grp }} </span>
+            </li>
+        </ul>
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Emergency Number : </div>
+                <span class="status"> {{ data.emergency_num }} </span>
+            </li>
+        </ul>
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Medication: </div>
+                <span class="status"> {{ data.medication }} </span>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="overlay-app"></div>
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'app/base_patient.html' %}
+{% block content %}
+  <div class="header-profile">
+   <img class="profile-img" src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="">
+  </div>
+ </div>
+ <div class="wrapper">
+  <div class="main-container">
+   <div class="content-wrapper">
+    <div class="content-section">
+     <div class="content-section-title"></div>
+     {% if data %}
+        {% for d in data %}
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Symptoms: </div>
+                <span class="status"> {{ d.symptoms }} </span>
+            </li>
+        </ul>
+
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Diagnosis: </div>
+                <span class="status"> {{ d.diagnosis }} </span>
+            </li>
+        </ul>
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Prescribed medicine: </div>
+                <span class="status"> {{ d.prescribed_medicine }} </span>
+            </li>
+        </ul>
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> Notes: </div>
+                <span class="status"> {{ d.notes }} </span>
+            </li>
+        </ul>
+        {% endfor %}
+    {% endif %}
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="overlay-app"></div>
+{% endblock content %}
