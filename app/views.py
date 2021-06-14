@@ -499,3 +499,4 @@ def reset_password(request):
 
 
     return render(request, 'app/reset_password.html')
+
