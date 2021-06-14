@@ -9,12 +9,12 @@
    <div class="content-wrapper">
     <div class="content-section">
      <div class="content-section-title">Data</div>
+     
      <ul>
       <li class="adobe-product">
        <div class="products"> Full Name: </div>
-       <span class="status"> {{ patient.name }} </span>
+       <span class="status"> {{ request.session.patient.name }} </span>
        <div class="button-wrapper">
-        <button class="content-button status-button open">Edit</button>
         </div>
       </li>
       </ul>
@@ -22,27 +22,26 @@
       <ul>
       <li class="adobe-product">
         <div class="products"> Email ID: </div>
-        <span class="status"> {{ patient.email_id }} </span>
+        <span class="status"> {{ request.session.patient.email_id }} </span>
         <div class="button-wrapper">
-         <button class="content-button status-button open">Edit</button>
         </div>
        </li>
       </ul>
       <ul>
         <li class="adobe-product">
           <div class="products"> Adhaar Number: </div>
-          <span class="status"> {{ patient.adhaar_number }} </span>
+          <span class="status"> {{ request.session.patient.adhaar_number }} </span>
           <div class="button-wrapper">
-           <button class="content-button status-button open">Edit</button>
+
           </div>
          </li>
         </ul>
         <ul>
           <li class="adobe-product">
            <div class="products"> DOB: </div>
-           <span class="status"> {{ patient.birth_date }} </span>
+           <span class="status"> {{ request.session.patient.birth_date }} </span>
            <div class="button-wrapper">
-            <button class="content-button status-button open">Edit</button>
+
            </div>
           </li>
          </ul>
@@ -50,30 +49,39 @@
         <ul>
           <li class="adobe-product">
            <div class="products"> Gender: </div>
-           <span class="status"> {{ patient.gender }} </span>
+           <span class="status"> {{ request.session.patient.gender }} </span>
            <div class="button-wrapper">
-            <button class="content-button status-button open">Edit</button>
+
            </div>
           </li>
          </ul>
          <ul>
           <li class="adobe-product">
            <div class="products"> Phone Number: </div>
-           <span class="status"> {{ phone_number.phone_number }} </span>
+           <span class="status"> {{ request.session.phone_number.phone_number }} </span>
            <div class="button-wrapper">
-            <button class="content-button status-button open">Edit</button>
+
            </div>
           </li>
          </ul>
       <ul>
        <li class="adobe-product">
         <div class="products"> Address </div>
-        <span class="status"> {{ add }} </span>
+        <span class="status"> {{ request.session.add }} </span>
         <div class="button-wrapper">
-         <button class="content-button status-button open">Edit</button>
         </div>
        </li>
       </ul>
+      <ul>
+            <li class="adobe-product">
+                <div class="products"> Want to update your data: </div>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <div style="float: left;" class="button-wrapper">
+                            <a href="{% url 'editpatientdata' %}"><button class="content-button status-button open">Edit Details</button></a>
+                        </div>
+                    </span>
+              </li>
+        </ul>
     </div>
    </div>
   </div>

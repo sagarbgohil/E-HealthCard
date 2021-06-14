@@ -1,0 +1,104 @@
+{% extends 'app/base_patient.html' %}
+{% block content %}
+  <div class="header-profile">
+   <img class="profile-img" src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="">
+  </div>
+ </div>
+ <div class="wrapper">
+  <div class="main-container">
+   <div class="content-wrapper">
+    <div class="content-section">
+     <div class="content-section-title">Data</div>
+     
+     <ul>
+      <form action="{% url 'editpatientdata' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
+      {% csrf_token %}
+      <li class="adobe-product">
+       <div class="products"> Full Name: </div>
+       <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="fullname" id="fullname" placeholder="Enter Full Name" value="{{ request.session.patient.name }}" aria-describedby="emailHelpBlock" autofocus disabled> </span>
+       <div class="button-wrapper">
+      
+        </div>
+      </li>
+      </ul>
+
+      <ul>
+      <li class="adobe-product">
+        <div class="products"> Email ID: </div>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="mail" id="mail" placeholder="Enter Email ID" value="{{ request.session.patient.email_id }}" aria-describedby="emailHelpBlock" autofocus>  </span>
+        <div class="button-wrapper">
+         
+        </div>
+       </li>
+      </ul>
+         <ul>
+          <li class="adobe-product">
+           <div class="products"> Phone Number: </div>
+           <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="phonenum" id="phonenum" placeholder="Enter phone number" value="{{ request.session.phone_number.phone_number }}" aria-describedby="emailHelpBlock" autofocus>  </span>
+           <div class="button-wrapper">
+            
+           </div>
+          </li>
+         </ul>
+      <ul>
+       <li class="adobe-product">
+        <div class="products"> Address </div>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="add" id="add" placeholder="Enter address" value="{{ request.session.patient.address_1 }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <div class="button-wrapper">
+         
+        </div>
+       </li>
+      </ul>
+      <ul>
+       <li class="adobe-product">
+        <div class="products"> City </div>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="city" id="city" placeholder="Enter City" value="{{ request.session.patient.city }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <div class="button-wrapper">
+         
+        </div>
+       </li>
+      </ul>
+      <ul>
+       <li class="adobe-product">
+        <div class="products"> State </div>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="state" id="state" placeholder="Enter State" value="{{ request.session.patient.state }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <div class="button-wrapper">
+         
+        </div>
+       </li>
+      </ul>
+      <ul>
+       <li class="adobe-product">
+        <div class="products"> Country </div>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="country" id="country" placeholder="Enter Country" value="{{ request.session.patient.country }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <div class="button-wrapper">
+         
+        </div>
+       </li>
+      </ul>
+      <ul>
+        <li class="adobe-product">
+         <div class="products"> Pincode </div>
+         <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pincode" id="pincode" placeholder="Enter Pincode" value="{{ request.session.patient.pincode }}" aria-describedby="emailHelpBlock" autofocus> </span>
+         <div class="button-wrapper">
+          
+         </div>
+        </li>
+       </ul>
+      <ul>
+            <li class="adobe-product">
+                <div class="products"></div>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <div style="float: left;" class="button-wrapper">
+                            <button class="content-button status-button open">Save Details</button>
+                        </div>
+                    </span>
+              </li>
+            </form>
+        </ul>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div class="overlay-app"></div>
+{% endblock content %}

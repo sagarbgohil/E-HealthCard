@@ -9,13 +9,42 @@
   <link rel="stylesheet" href="{% static 'app/patient_style.css' %}">
   <script src="{% static 'app/patient_script.js' %}"></script>
   <style>
+      input{
+          padding: 6px;
+          border-top-style: hidden;
+          border-right-style: hidden;
+          border-left-style: hidden;
+          border-radius: 5px;
+          border-bottom-style: hidden;
+          /* background-color: #eee; */
+          background-color: transparent;
+          outline: none;
+          -webkit-box-shadow: none;
+          -moz-box-shadow: none;
+          box-shadow: none;
+          color: white;
+          cursor:default;
+      }
+      input:focus{
+        border-color: white;
+        color: white !important;
+        border-bottom-style: groove;
+      }
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none;
+      }
+      .error{
+        color: red;
+      
+      }
       .link{
           text-decoration: none;
-          color: antiquewhite;
+          color: black;
           transition: color 1s;
       }
       .link:hover{
-          color: aqua;
+          color: rgba(16 18 27 / 75%);
       }
   </style>
 </head>
@@ -30,55 +59,69 @@
   <div class="menu-circle"></div>
   <div class="header-menu">
     <a class="menu-link is-active" href="{% url 'patient' %}">Data</a>
-    {% if patient.doctor %}
+    {% if request.session.doctor %}
       <form id="myform" method="post" action="{% url 'doctor' %}">
         {% csrf_token %}
         <input type="hidden" name="name" value="{{ patient.name }}" />
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="">Doctor</a>
+        <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="#">Doctor</a>
       </form>
       <form id="myform2" method="post" action="{% url 'gethealthinfo' %}">
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="">Health Information</a>
+        <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="#">Health Information</a>
       </form>
       <form id="myform3" method="post" action="{% url 'getfiledata' %}">
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="">File Information</a>  
+        <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="#">File Information</a>  
       </form>  
-    {% elif patient.paramedics %}
+      <form id="myform3" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
+        <a class="menu-link is-active" onclick="document.forms[3].submit();return false;" href="#">Logout</a>
+      </form>
+    {% elif request.session.paramedics %}
       <form id="myform" method="post" action="{% url 'paramedics' %}">
         {% csrf_token %}
         <input type="hidden" name="name" value="{{ patient.name }}" />
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="">Paramedics</a>
+        <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="#">Paramedics</a>
       </form>
       <form id="myform2" method="post" action="{% url 'gethealthinfo' %}">
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="">Health Information</a>
+        <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="#">Health Information</a>
       </form>
       <form id="myform3" method="post" action="{% url 'getfiledata' %}">
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-        <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="">File Information</a>  
+        <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="#">File Information</a>  
+      </form>
+      <form id="myform3" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
+        <a class="menu-link is-active" onclick="document.forms[3].submit();return false;" href="#">Logout</a>
       </form>
     {% else %}
         <form id="myform2" method="post" action="{% url 'gethealthinfo' %}">
             {% csrf_token %}
             <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-            <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="">Health Information</a>
+            <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="#">Health Information</a>
         </form>
         
         <form id="myform3" method="post" action="{% url 'getfiledata' %}">
             {% csrf_token %}
             <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
-            <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="">File Information</a>
+            <a class="menu-link is-active" onclick="document.forms[1].submit();return false;" href="#">File Information</a>
+        </form>
+        <form id="myform3" method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
+          <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="#">Logout</a>
         </form>
     {% endif %}
-
-    
+        
       <!-- <a class="menu-link is-active" href="#">Health Info</a> -->
   </div>
 
@@ -86,15 +129,14 @@
     {% endblock content %}
 
   </div>
-    {% if patient.patient_check %}
+    {% if request.session.patient_check %}
         <div style="padding: 2mm;">
             <span style="color: black !important; float: right !important; padding-right: 5px;"><a class="text-decoration-none link" href="{% url 'registerdoctor' %}">Request for doctor</a></span>
-            <span style="color: white !important; float: right !important; padding-right: 5px;"> | </span>
+            <span style="color: black !important; float: right !important; padding-right: 5px;"> | </span>
             <span style="color: black !important; float: right !important; padding-right: 5px;"><a class="text-decoration-none link" href="{% url 'registerparamedics' %}">Request for Peramedics</a></span>
         </div>
     {% endif %}
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
   <script src="{% static 'app/validation.js' %}"></script>

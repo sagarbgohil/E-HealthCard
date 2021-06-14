@@ -8,10 +8,14 @@ from django.db.models import *
 from datetime import date
 from django.http import HttpResponse
 from django.template import loader
+from django.core.mail import send_mail
 
-# Create your views here.
 def login_page(request):
 
+    success = ""
+    if 'success_pwd' in request.session:
+        success = request.session['success_pwd']
+    print(success)
     error = ""
     if(request.POST):
         login_data = request.POST.dict()
@@ -22,18 +26,19 @@ def login_page(request):
             data = Patient.objects.get(email_id = mail)
             if check_password(password, data.password):
                 request.session['emailid'] = str(mail)
-                return patient_page(request)
+                # return patient_page(request)
+                return redirect('/patient/', request=request)
             else:
                 error = "Password is wrong"
     
         except Patient.DoesNotExist as e:
             error = "Email id is wrong"
 
-    context = {
-        "title": "Login",
-        "error": error
-    }
-    return render(request, 'app/login_page.html', context)
+    return render(request, 'app/login_page.html', {"error": error, "success": success})
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
 
 def register_page(request):
     try:
@@ -62,7 +67,7 @@ def register_page(request):
             # Adding record into Patient table
             record, _ = Patient.objects.update_or_create(name = fullname,
                 patient_id = max_id,
-                email_id =register_data.get("email_id"),
+                email_id = register_data.get("email_id"),
                 birth_date = bdate,
                 adhaar_number = register_data.get("adhaar"),
                 gender = register_data.get("gender"),
@@ -85,107 +90,105 @@ def register_page(request):
                 patient_id = record,
                 phone_number = register_data.get("phone")
             )
-            return redirect('/login/', request=request)
+            request.session['emailid'] = register_data.get("email_id")
+            return redirect('/patient/', request=request)
             # return render(request, 'app/login_page.html')
 
     except Exception as e:
-        pass
+        print(e)
 
-    context = {
-        "title": "Register"
-    }
-    return render(request, 'app/registration_page.html', context)
+    return render(request, 'app/registration_page.html')
 
 def home_page(request):
-
-    context = {
-        "title" : "Home"
-    }
+    if 'emailid' in request.session:
+        return redirect('/patient/', request=request)
     return render(request, 'app/home_page.html')
 
 def patient_page(request):
 
+    if 'emailid' not in request.session:
+        return redirect('/login/')
     mail = request.session['emailid']
     data = Patient.objects.get(email_id = mail)
 
-    # if request.POST:
-    #     login_data = request.POST.dict()
-    #     mail = login_data.get("email_id")
-    #     password = login_data.get("password")
-    #     try:
-    #         data = Patient.objects.get(email_id = mail)
-    #         if check_password(password, data.password):
-    #             # return patient_page(request, data)
-    #             pass
-    #         else:
-    #             error = "Password is wrong"
-    #             context = {
-    #                 "title": "Login",
-    #                 "error": error
-    #             }
-    #             return render(request, 'app/login_page.html', context)
-    
-    #     except Patient.DoesNotExist as e:
-    #         error = "Email id is wrong"
-    #         context = {
-    #                 "title": "Login",
-    #                 "error": error
-    #             }
-    #         return render(request, 'app/login_page.html', context)
-
     phone_number = PhoneNumber.objects.get(patient_id = data)
     add = data.address_1 + ", "  + data.city + ", "  + data.state + ", "  + data.country + ", " +  str(data.pincode)
-    doctor_data = ""
-    paramedics_data = ""
+    doctor_data = None
+    paramedics_data = None
+
     try:
         doctor_data = Doctor.objects.get(patient_id = data)
-        paramedics_data = Paramedics.objects.get(patient_id = data)            
     except Doctor.DoesNotExist as e:
         print("Not doctor")
+
+    try:
+        paramedics_data = Paramedics.objects.get(patient_id = data)            
     except Paramedics.DoesNotExist as e:
         print("Not paramedics")
+
     if doctor_data:
-        context = {
-            "title": "Patient",
-            "patient": data,
-            "add": add,
-            "phone_number": phone_number,
-            "doctor": "yes"
-        }
+        request.session['doctor'] = 'yes'
+        print('doctor')
     elif paramedics_data:
-        context = {
-            "title": "Patient",
-            "patient": data,
-            "add": add,
-            "phone_number": phone_number,
-            "paramedics": "yes"
-        }
+        request.session['paramedics'] = 'yes'
+        print("paramedics")
     else:
-        context = {
-            "title": "Patient",
-            "patient": data,
-            "add": add,
-            "phone_number": phone_number,
-            "patient_check": "yes"
-        }
-    
-    template = loader.get_template('app/patient_page.html')
-    response = HttpResponse(template.render(context, request))
-    response['Location'] = "patient/"
-    return response
-    # return render(request, 'app/patient_page.html', context)
+        request.session['patient_check'] = 'yes'
+        print("patient")
+
+    request.session['patient'] = data
+    request.session['add'] = add
+    request.session['phone_number'] = phone_number
+
+    return render(request, 'app/patient_page.html')
 
 def doctor_page(request):
-    register_data = request.POST.dict()
-    name = register_data.get("name")
-    patient_id = register_data.get("patient_id")
+    if 'emailid' not in request.session:
+        return redirect('/login/')
 
-    context = {
-        "title": "Doctor",
-        "name": name,
-        "patient_id": patient_id
-    }
-    return render(request, 'app/doctor_page.html', context)
+    # register_data = request.POST.dict()
+    # request.session['doctorname'] = register_data.get("name")
+    # request.session['doctorid'] = register_data.get("patient_id")
+
+    request.session['doctorname'] = request.session['patient'].name
+    request.session['doctorid'] = request.session['patient'].patient_id
+
+    # context = {
+    #     "title": "Doctor",
+    #     "name": name,
+    #     "patient_id": patient_id
+    # }
+    return render(request, 'app/doctor_page.html')
+
+def paramedics_page(request):
+    if 'emailid' not in request.session:
+        return redirect('/login/')
+
+    # register_data = request.POST.dict()
+    # request.session['doctorname'] = register_data.get("name")
+    # request.session['doctorid'] = register_data.get("patient_id")
+
+    request.session['paramedicname'] = request.session['patient'].name
+    request.session['paramedicid'] = request.session['patient'].patient_id
+
+    # context = {
+    #     "title": "Doctor",
+    #     "name": name,
+    #     "patient_id": patient_id
+    # }
+    return render(request, 'app/peramedics_page.html')
+
+    # register_data = request.POST.dict()
+    # name = register_data.get("name")
+    # patient_id = register_data.get("patient_id")
+
+    # context = {
+    #     "title": "Paramedics",
+    #     "name": name,
+    #     "patient_id": patient_id
+    # }
+
+    # return render(request, 'app/peramedics_page.html', context)
 
 def get_patient_data(request):
     if(request.POST):
@@ -193,35 +196,59 @@ def get_patient_data(request):
         mail = register_data.get("email_id")
         try:
             data = Patient.objects.get(email_id = mail)
-            context= {
-                "data": data,
-                "patient_id": register_data.get("patient_id"),
-                "name": register_data.get("name")
-            }
-            return render(request, 'app/doctor_page.html', context)
+            health_info = HealthInfo.objects.get(patient_id = data)
+            request.session["data"] = data
+            request.session["health"] = health_info
+            if "error" in request.session:
+                del request.session['error']
+            # context= {
+            #     "data": data,
+            #     "patient_id": register_data.get("patient_id"),
+            #     "name": register_data.get("name")
+            # }
+
+            # return render(request, 'app/doctor_page.html')
                 
-        except Patient.DoesNotExist as e:
+        except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as e:
             print("error")
-    return render(request, 'app/doctor_page.html')
+            request.session['error'] = "Data not found"
+
+    return redirect('/doctor/') 
+    # return render(request, 'app/doctor_page.html')
 
 def get_patient_data_paramedics(request):
     if(request.POST):
         register_data = request.POST.dict()
         mail = register_data.get("email_id")
         try:
-            patient = Patient.objects.get(email_id = mail)
-            filedata = HealthInfo.objects.get(patient_id = patient)
-            context = {
-                "data": filedata,
-                "patient_id": register_data.get("patient_id"),
-                "name": register_data.get("name"),
-                "patient_name": patient.name
-            }
-            return render(request, 'app/peramedics_page.html', context)
-                
-        except Patient.DoesNotExist as e:
+            data = Patient.objects.get(email_id = mail)
+            health_info = HealthInfo.objects.get(patient_id = data)
+            request.session["data"] = data
+            request.session["health"] = health_info
+            del request.session['error']
+        except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as e:
             print("error")
-    return render(request, 'app/peramedics_page.html')
+            request.session['error'] = "Data not found"
+            
+    return redirect('/paramedics/') 
+    
+    # if(request.POST):
+    #     register_data = request.POST.dict()
+    #     mail = register_data.get("email_id")
+    #     try:
+    #         patient = Patient.objects.get(email_id = mail)
+    #         filedata = HealthInfo.objects.get(patient_id = patient)
+    #         context = {
+    #             "data": filedata,
+    #             "patient_id": register_data.get("patient_id"),
+    #             "name": register_data.get("name"),
+    #             "patient_name": patient.name
+    #         }
+    #         return render(request, 'app/peramedics_page.html', context)
+                
+    #     except Patient.DoesNotExist as e:
+    #         print("error")
+    # return render(request, 'app/peramedics_page.html')
 
 def register_doctor(request):
     if request.POST:
@@ -247,7 +274,8 @@ def register_doctor(request):
             hospital_name = hospital_name,
             designation = designation,
             licence_id = licence_id)
-        return patient_page(request, patient)
+        return redirect('/patient')
+
     return render(request, 'app/doctor_register.html')
 
 def register_paramedics(request):
@@ -270,56 +298,51 @@ def register_paramedics(request):
             patient_id = patient,
             vehicle_licence_num = license_id
             )
-        return patient_page(request, patient)
+        return redirect('/patient')
         # return render(request, 'app/patient_page.html', patient)
 
     return render(request, 'app/peramedics_register.html')
 
 def get_health_info(request):
-
+    if 'emailid' not in request.session:
+            return redirect('/login/')
     if request.POST:
-
-        register_data  = request.POST.dict()
-
         try:
-            patient_id = register_data.get("patient_id")
+            patient_id = request.session['patient'].patient_id
             patient = Patient.objects.get(patient_id = patient_id)
             data = HealthInfo.objects.get(patient_id = patient)
-
-            context = {
-                "data": data
-            }
-
-            return render(request, 'app/health_info_page.html', context)
-
+            request.session['healthinfo'] = data
         except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as a:
-            pass
+            if 'healthinfo' in request.session:
+                del request.session['healthinfo'] 
+            print("no health data found")
+            request.session['error'] = "no health data found"
 
     return render(request, 'app/health_info_page.html')
 
 def get_file_data(request):
+    if 'emailid' not in request.session:
+            return redirect('/login/')
     if request.POST:
 
-        register_data  = request.POST.dict()
-
         try:
-            patient_id = register_data.get("patient_id")
+            patient_id = request.session['patient'].patient_id
             patient = Patient.objects.get(patient_id = patient_id)
-            data = File.objects.get(patient_id = patient)
-
-            context = {
-                "data": data
-            }
-
-            return render(request, 'app/file_info_page.html', context)
+            data = File.objects.filter(patient_id = patient)
+            print(data)
+            request.session['filedata'] = data
 
         except (Patient.DoesNotExist, File.DoesNotExist) as a:
-            pass
+            if 'filedata' in request.session:
+                del request.session['filedata'] 
+            print("no file data found")
+            request.session['error'] = "no file data found"
 
     return render(request, 'app/file_info_page.html')
 
 def add_health_info(request):
-
+    if 'emailid' not in request.session:
+            return redirect('/login/')
     if request.POST:
         register_data = request.POST.dict()
 
@@ -328,11 +351,11 @@ def add_health_info(request):
         max_id += 1 
         max_id = str(max_id).zfill(10) if max_id is not None else 1
 
-        patient_id = register_data.get('patient_id')
+        patient_id = request.session['patient'].patient_id
         height = register_data.get('height')
-        weight = register_data.get('weigth')
+        weight = register_data.get('weight')
         blood_grp = register_data.get('blood_grp')
-        emergency_number = register_data.get('emergency_number')
+        emergency_number = register_data.get('emergency_num')
         medication = register_data.get("medication")
 
         patient = Patient.objects.get(patient_id = patient_id)
@@ -343,15 +366,17 @@ def add_health_info(request):
             height = height,
             weight = weight,
             blood_grp = blood_grp,
-            emergency_number = emergency_number,
+            emergency_num = emergency_number,
             medication = medication
         )
 
-        return redirect('/gethealthinfo/', request=request)
+        return redirect('/gethealthinfo/')
 
     return render(request, 'app/health_info_page.html')
 
 def add_file_info(request):
+    if 'emailid' not in request.session:
+            return redirect('/login/')
     register_data = request.POST.dict()
 
     if request.POST:
@@ -361,13 +386,13 @@ def add_file_info(request):
         max_id += 1 
         max_id = str(max_id).zfill(10) if max_id is not None else 1
 
-        patient_id = register_data.get('patient_id')
+        patient_id = request.session['data'].patient_id
         symptoms = register_data.get('symptom')
         diagnosis = register_data.get('diagnosis')
         prescribed_medicine = register_data.get('prescribedMedicine')
         notes = register_data.get('note')
         created_date = date.today()
-        doctor_id = register_data.get('doctor_patient_id')
+        doctor_id = request.session['patient'].patient_id
         print(doctor_id)
         
         patient = Patient.objects.get(patient_id = patient_id)
@@ -383,27 +408,94 @@ def add_file_info(request):
             notes = notes,
             created_date = created_date,
         )
+
+    return redirect('/doctor')
+
+def edit_patient_data(request):
+    if 'emailid' not in request.session:
+        return redirect('/login/')
+    if request.POST:
+        print("post")
+        request_data = request.POST.dict()
+
+        mail = request.session['emailid']
+        data = Patient.objects.get(email_id = mail)
+
+        phone_data = PhoneNumber.objects.get(patient_id = data)
+        phone = request_data.get('phonenum')
+        phone_data.phone_number = phone
+        phone_data.save()
+
+        data.email_id = request_data.get('mail')
+        data.address_1 = request_data.get('add')
+        data.city = request_data.get('city')
+        data.state = request_data.get('state')
+        data.country = request_data.get('country')
+        data.pincode = request_data.get('pincode')
+
+        data.save()        
+        request.session['patient'] = data
+        request.session['phone_number'] = phone_data
+
+        request.session['emailid'] = data.email_id
+        redirect('/patient/')
+
+    return render(request, 'app/edit_patient_data.html')
+
+def forget_password(request):
+
+    error = ""
+    success = ""
+    if request.POST:
+        forget_data = request.POST.dict()
+        mail = forget_data.get('email_id')
+        data_mail = ""
+        try:
+            data = Patient.objects.get(email_id = mail)
+            data_mail = data.email_id
+        except Patient.DoesNotExist as e:
+            error = "Email id is wrong"
         
-    name = register_data.get("name")
-    patient_id = register_data.get("patient_id")
-    context = {
-        "title": "Paramedics",
-        "name": name,
-        "patient_id": patient_id
-    }
+        # msg = "Click below link to reset password"+"\n\n"+"http://127.0.0.1:8000/resetpassword/"
 
-    return render(request, 'app/doctor_page.html', context)
+        
+        if mail == data_mail:
+            success = "Link has been send"
+            
+            # replace this two line with send mail logic
+            # send_mail(
+            #     'Reset Password',
+            #     msg,
+            #     'dig786335@gmail.com',
+            #     [mail],
+            #     fail_silently=False,
+            # )
 
-def paramedics_page(request):
-    register_data = request.POST.dict()
-    name = register_data.get("name")
-    patient_id = register_data.get("patient_id")
+            request.session['emailid'] = str(mail)
+            return redirect('/resetpassword/', request=request)
 
-    context = {
-        "title": "Paramedics",
-        "name": name,
-        "patient_id": patient_id
-    }
+    return render(request, 'app/forget_password.html', {"error": error, "success": success})
 
-    return render(request, 'app/peramedics_page.html', context)
+def reset_password(request):
 
+    if 'emailid' not in request.session:
+        return redirect('/login/')
+
+    mail = request.session['emailid']
+    # print(mail)
+
+    if request.POST:
+        reset_password = request.POST.dict()
+        new_passsword = reset_password.get('password')
+        print(new_passsword)
+        data = Patient.objects.get(email_id = mail)
+
+        data.password = make_password(new_passsword)
+        data.save()
+        
+        request.session['success_pwd'] = "Password Reset Successfully"
+        
+        return redirect('/login/', request=request)
+
+
+    return render(request, 'app/reset_password.html')

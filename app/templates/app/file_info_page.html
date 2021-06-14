@@ -9,8 +9,14 @@
    <div class="content-wrapper">
     <div class="content-section">
      <div class="content-section-title"></div>
-     {% if data %}
-        {% for d in data %}
+     {% if request.session.filedata %}
+        {% for d in request.session.filedata %}
+        <ul>
+            <li class="adobe-product">
+                <div class="products"> File Number: </div>
+                <span class="status"> {{ d }} </span>
+            </li>
+        </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Symptoms: </div>
@@ -37,6 +43,17 @@
             </li>
         </ul>
         {% endfor %}
+
+    {% endif %}
+    {% if request.session.error %}
+        <ul style="margin-top: 4mm;">
+          <li class="adobe-product">
+            <div class="products"> </div>
+              <span class="status">{{ request.session.error }}</span>
+              <div style="float: left; margin-left: 102mm;" class="button-wrapper">
+              </div>
+          </li>
+          </ul>
     {% endif %}
     </div>
    </div>

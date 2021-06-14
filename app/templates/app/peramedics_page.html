@@ -10,53 +10,63 @@
     <div class="content-section">
      <div class="content-section-title">Data</div>
      <ul>
-      <li class="adobe-product">
-       <div class="products"> Full Name: </div>
-       <span class="status"> {{ name }} </span>
-       <span class="status"> {{ patient_id }} </span>
-       <div class="button-wrapper">
-        <button class="content-button status-button open">Edit</button>
-        </div>
-      </li>
-      </ul>
-      <ul>
         <li class="adobe-product">
-         <div class="products"> <label for="email_id">Email:</label> </div>
-         <form action="{% url 'getpatientinfoparamedics' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
-          {% csrf_token %}
-          <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="email" class="form-control shadow-none" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus> </span>
-          <input type="hidden" name="patient_id" value="{{ patient_id }}"  />
-          <input type="hidden" name="name" value="{{ name }}"  />
-          <div style="float: left; margin-left: 102mm;" class="button-wrapper">
-          <button class="content-button status-button open">Find Data</button>
+         <div class="products"> Paramedic Name: </div>
+         <span class="status"> {{ request.session.paramedicname }} </span>
+         <div class="button-wrapper">
+          <button class="content-button status-button open">Edit</button>
           </div>
-          </form>
         </li>
         </ul>
-        {% if data %}
+        <form action="{% url 'getpatientinfoparamedics' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
+        {% csrf_token %}  
+        <ul>
+          <li class="adobe-product">
+           <div class="products"> <label for="email_id">Email:</label> </div>
+           <span class="status"> 
+            <input style="width: max-content;" type="email" class="form-control shadow-none" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus>
+            <input type="hidden" name="patient_id" value="{{ patient_id }}"  />
+            <input type="hidden" name="name" value="{{ name }}"  />
+            </span>
+            <div class="button-wrapper">
+              <button class="content-button status-button open">Find Data</button>
+            </div>
+          </li>
+          </ul>
+          </form>
+        {% if request.session.error %}
+          <ul style="margin-top: 4mm;">
+            <li class="adobe-product">
+              <div class="products"> </div>
+                <span class="status">{{ request.session.error }}</span>
+                <div style="float: left; margin-left: 102mm;" class="button-wrapper">
+                </div>
+            </li>
+            </ul>
+        {% elif request.session.data %}
         <ul>
             <li class="adobe-product">
-                <div class="products"> Name: </div>
-                <span class="status"> {{ patient_name }} </span>
+                <div class="products"> Patient Name: </div>
+                <span class="status"> {{ request.session.data.name }} </span>
             </li>
         </ul>
 
         <ul>
             <li class="adobe-product">
                 <div class="products"> Blood Group: </div>
-                <span class="status"> {{ data.blood_grp }} </span>
+                <span class="status"> {{ request.session.health.blood_grp }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Emergency Number : </div>
-                <span class="status"> {{ data.emergency_num }} </span>
+                <span class="status"> {{ request.session.health.emergency_num }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Medication: </div>
-                <span class="status"> {{ data.medication }} </span>
+                <span class="status"> {{ request.session.health.medication }} </span>
             </li>
         </ul>
         {% endif %}

@@ -136,7 +136,7 @@ $("#registrationForm").validate({
         required: true,
         minlength: 8,
         maxlength: 20,
-        equalTo: password
+        equalTo: '#password'
       },
     },
     // Specify validation error messages

@@ -6,49 +6,53 @@
  </div>
  <div class="wrapper">
   <div class="main-container">
-   <div class="content-wrapper">
-    <div class="content-section">
-     <div class="content-section-title"></div>
-     {% if data %}
+   <div class="content-wrapper">    
+     {% if request.session.healthinfo %}
+     <div class="content-section">
+        <div class="content-section-title"></div>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Height: </div>
-                <span class="status"> {{ data.height }} </span>
+                <span class="status"> {{ request.session.healthinfo.height }} </span>
             </li>
         </ul>
 
         <ul>
             <li class="adobe-product">
                 <div class="products"> Weight: </div>
-                <span class="status"> {{ data.weight }} </span>
+                <span class="status"> {{ request.session.healthinfo.weight }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Blood Group: </div>
-                <span class="status"> {{ data.blood_grp }} </span>
+                <span class="status"> {{ request.session.healthinfo.blood_grp }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Emergency Number: </div>
-                <span class="status"> {{ data.emergency_num }} </span>
+                <span class="status"> {{ request.session.healthinfo.emergency_num }} </span>
             </li>
         </ul>
             
         <ul>
             <li class="adobe-product">
                 <div class="products"> Medication: </div>
-                <span class="status"> {{ data.medication }} </span>
+                <span class="status"> {{ request.session.healthinfo.medication }} </span>
             </li>
         </ul>
+        </div>
      {% else %}
+        <div class="content-section">
+        <div class="content-section-title"></div>
         <ul>
+            <form action="{% url 'addhealthdata' %}" id="healthInfo" name="healthInfo" autocomplete="off" method="POST"> 
+            {% csrf_token %}
             <li class="adobe-product">
                 <div class="products"> <label for="height">Height:</label> </div>
-                <form action="{ url 'addhealthdata' }" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
-                    {% csrf_token %}
-                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="height" id="height" placeholder="Enter Your Height" aria-describedby="emailHelpBlock" value="" autofocus> </span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <input style="width: max-content;" type="number" class="form-control shadow-none" name="height" id="height" placeholder="Enter Your Height" autofocus> </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
             </li>
@@ -56,7 +60,8 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="weight">weight:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="weight" id="weight" placeholder="Enter your weight" aria-describedby="emailHelpBlock" value="" autofocus> </span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <input style="width: max-content;" type="number" class="form-control shadow-none" name="weight" id="weight" placeholder="Enter your weight" autofocus> </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
                 
@@ -65,7 +70,8 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="blood_grp">Blood Group:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="blood_grp" id="blood_grp" placeholder="Enter Blood Group" aria-describedby="emailHelpBlock" value="" autofocus> </span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <input style="width: max-content;" type="text" class="form-control shadow-none" name="blood_grp" id="blood_grp" placeholder="Enter Blood Group" autofocus> </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
                 
@@ -74,7 +80,8 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="emergency_num">Emergency Number:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="emergency_num" id="emergency_num" placeholder="name@example.com" aria-describedby="emailHelpBlock" value="" autofocus> </span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> 
+                        <input style="width: max-content;" type="number" class="form-control shadow-none" name="emergency_num" id="emergency_num" placeholder="Enter Emergency Number" autofocus> </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
                 
@@ -82,8 +89,8 @@
         </ul>
         <ul>
             <li class="adobe-product">
-                <div class="products"> <label for="medicine">Medicine:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="medicine" id="medicine" placeholder="name@example.com" aria-describedby="emailHelpBlock" value="" autofocus> </span>
+                <div class="products"> <label for="medication">Medication:</label> </div>
+                    <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="medication" id="medication" placeholder="Enter Medicine Name" autofocus> </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
             </li>
@@ -96,9 +103,9 @@
                             <button class="content-button status-button open">Add</button>
                         </div>
                     </span>
-                </form>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </form>
      {% endif %}
     </div>
    </div>
