@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 ]
 
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
