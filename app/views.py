@@ -27,6 +27,7 @@ def login_page(request):
             if check_password(password, data.password):
                 request.session['emailid'] = str(mail)
                 # return patient_page(request)
+                request.session.set_expiry(600)
                 return redirect('/patient/', request=request)
             else:
                 error = "Password is wrong"
@@ -261,7 +262,7 @@ def register_doctor(request):
         max_id = str(max_id).zfill(10) if max_id is not None else 1
         
         # combine data into fullname
-        patient_id = register_data.get("patient_id")
+        patient_id = request.session['patient'].patient_id
         hospital_name = register_data.get("hospital_name")
         designation = register_data.get("designation")
         licence_id = register_data.get("licence_id")
@@ -274,6 +275,10 @@ def register_doctor(request):
             hospital_name = hospital_name,
             designation = designation,
             licence_id = licence_id)
+
+        if 'patient_check' in request.session:
+            del request.session['patient_check'] 
+
         return redirect('/patient')
 
     return render(request, 'app/doctor_register.html')
@@ -288,7 +293,7 @@ def register_paramedics(request):
         max_id = str(max_id).zfill(10) if max_id is not None else 1
         
         # combine data into fullname
-        patient_id = register_data.get("patient_id")
+        patient_id = request.session['patient'].patient_id
 
         patient = Patient.objects.get(patient_id = patient_id)
         license_id = register_data.get("licence_id")
@@ -298,6 +303,10 @@ def register_paramedics(request):
             patient_id = patient,
             vehicle_licence_num = license_id
             )
+
+        if 'patient_check' in request.session:
+            del request.session['patient_check'] 
+
         return redirect('/patient')
         # return render(request, 'app/patient_page.html', patient)
 
@@ -305,44 +314,42 @@ def register_paramedics(request):
 
 def get_health_info(request):
     if 'emailid' not in request.session:
-            return redirect('/login/')
-    if request.POST:
-        try:
-            patient_id = request.session['patient'].patient_id
-            patient = Patient.objects.get(patient_id = patient_id)
-            data = HealthInfo.objects.get(patient_id = patient)
-            request.session['healthinfo'] = data
-        except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as a:
-            if 'healthinfo' in request.session:
-                del request.session['healthinfo'] 
-            print("no health data found")
-            request.session['error'] = "no health data found"
+        return redirect('/login/')
+    try:
+        patient_id = request.session['patient'].patient_id
+        patient = Patient.objects.get(patient_id = patient_id)
+        data = HealthInfo.objects.get(patient_id = patient)
+        request.session['healthinfo'] = data
+    except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as a:
+        if 'healthinfo' in request.session:
+            del request.session['healthinfo'] 
+        print("no health data found")
+        request.session['error'] = "no health data found"
 
     return render(request, 'app/health_info_page.html')
 
 def get_file_data(request):
     if 'emailid' not in request.session:
             return redirect('/login/')
-    if request.POST:
 
-        try:
-            patient_id = request.session['patient'].patient_id
-            patient = Patient.objects.get(patient_id = patient_id)
-            data = File.objects.filter(patient_id = patient)
-            print(data)
-            request.session['filedata'] = data
+    try:
+        patient_id = request.session['patient'].patient_id
+        patient = Patient.objects.get(patient_id = patient_id)
+        data = File.objects.filter(patient_id = patient)
+        print(data)
+        request.session['filedata'] = data
 
-        except (Patient.DoesNotExist, File.DoesNotExist) as a:
-            if 'filedata' in request.session:
-                del request.session['filedata'] 
-            print("no file data found")
-            request.session['error'] = "no file data found"
+    except (Patient.DoesNotExist, File.DoesNotExist) as a:
+        if 'filedata' in request.session:
+            del request.session['filedata'] 
+        print("no file data found")
+        request.session['error'] = "no file data found"
 
     return render(request, 'app/file_info_page.html')
 
 def add_health_info(request):
     if 'emailid' not in request.session:
-            return redirect('/login/')
+        return redirect('/login/')
     if request.POST:
         register_data = request.POST.dict()
 
@@ -358,6 +365,13 @@ def add_health_info(request):
         emergency_number = register_data.get('emergency_num')
         medication = register_data.get("medication")
 
+        if len(emergency_number) < 1 or len(emergency_number) > 10:
+            request.session['errorfield'] = "Enter valid data"
+            return redirect('/gethealthinfo/')
+
+        if 'errorfield' in request.session:
+            del request.session['errorfield']
+
         patient = Patient.objects.get(patient_id = patient_id)
            
         record, _ = HealthInfo.objects.update_or_create(
@@ -369,7 +383,8 @@ def add_health_info(request):
             emergency_num = emergency_number,
             medication = medication
         )
-
+        data = HealthInfo.objects.get(patient_id = patient)
+        request.session['healthinfo'] = data
         return redirect('/gethealthinfo/')
 
     return render(request, 'app/health_info_page.html')
@@ -395,6 +410,14 @@ def add_file_info(request):
         doctor_id = request.session['patient'].patient_id
         print(doctor_id)
         
+        if len(symptoms) < 1 or len(diagnosis) < 1 or len(prescribed_medicine) < 1 or len(notes) < 1:
+            request.session['errorfield'] = "enter valid input"
+            return redirect('/doctor')
+
+        if 'errorfield' in request.session:
+            del request.session['errorfield']
+
+
         patient = Patient.objects.get(patient_id = patient_id)
         doctor = Doctor.objects.get(patient_id = doctor_id)
 
@@ -420,13 +443,20 @@ def edit_patient_data(request):
 
         mail = request.session['emailid']
         data = Patient.objects.get(email_id = mail)
+        
+        if len(request_data.get('pincode')) < 1 or len(request_data.get('phonenum')) != 10 or len(request_data.get('pincode')) > 6:
+            request.session['errorfield'] = "enter valid input"
+            return redirect('/editpatientdata/')
+
+        if 'errorfield' in request.session:
+            del request.session['errorfield']
 
         phone_data = PhoneNumber.objects.get(patient_id = data)
         phone = request_data.get('phonenum')
         phone_data.phone_number = phone
         phone_data.save()
 
-        data.email_id = request_data.get('mail')
+
         data.address_1 = request_data.get('add')
         data.city = request_data.get('city')
         data.state = request_data.get('state')
@@ -438,7 +468,7 @@ def edit_patient_data(request):
         request.session['phone_number'] = phone_data
 
         request.session['emailid'] = data.email_id
-        redirect('/patient/')
+        return redirect('/patient/')
 
     return render(request, 'app/edit_patient_data.html')
 

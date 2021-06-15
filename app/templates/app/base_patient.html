@@ -60,7 +60,8 @@
   <div class="header-menu">
     <a class="menu-link is-active" href="{% url 'patient' %}">Data</a>
     {% if request.session.doctor %}
-      <form id="myform" method="post" action="{% url 'doctor' %}">
+    <a class="menu-link is-active" href="{% url 'doctor' %}">Doctor</a>
+      <!-- <form id="myform" method="post" action="{% url 'doctor' %}">
         {% csrf_token %}
         <input type="hidden" name="name" value="{{ patient.name }}" />
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
@@ -80,9 +81,10 @@
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
         <a class="menu-link is-active" onclick="document.forms[3].submit();return false;" href="#">Logout</a>
-      </form>
+      </form> -->
     {% elif request.session.paramedics %}
-      <form id="myform" method="post" action="{% url 'paramedics' %}">
+    <a class="menu-link is-active" href="{% url 'paramedics' %}">Paramedic</a>
+      <!-- <form id="myform" method="post" action="{% url 'paramedics' %}">
         {% csrf_token %}
         <input type="hidden" name="name" value="{{ patient.name }}" />
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
@@ -102,9 +104,9 @@
         {% csrf_token %}
         <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
         <a class="menu-link is-active" onclick="document.forms[3].submit();return false;" href="#">Logout</a>
-      </form>
+      </form> -->
     {% else %}
-        <form id="myform2" method="post" action="{% url 'gethealthinfo' %}">
+        <!-- <form id="myform2" method="post" action="{% url 'gethealthinfo' %}">
             {% csrf_token %}
             <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
             <a class="menu-link is-active" onclick="document.forms[0].submit();return false;" href="#">Health Information</a>
@@ -119,8 +121,11 @@
           {% csrf_token %}
           <input type="hidden" name="patient_id" value="{{ patient.patient_id }}" />
           <a class="menu-link is-active" onclick="document.forms[2].submit();return false;" href="#">Logout</a>
-        </form>
+        </form> -->
     {% endif %}
+    <a class="menu-link is-active" href="{% url 'gethealthinfo' %}">Health Information</a>
+    <a class="menu-link is-active" href="{% url 'getfiledata' %}">Files</a>
+    <a class="menu-link is-active" href="{% url 'logout' %}">Logout</a>
         
       <!-- <a class="menu-link is-active" href="#">Health Info</a> -->
   </div>
