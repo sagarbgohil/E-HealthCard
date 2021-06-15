@@ -13,10 +13,10 @@ from django.core.mail import send_mail
 def login_page(request):
 
     success = ""
+    error = ""
     if 'success_pwd' in request.session:
         success = request.session['success_pwd']
-    print(success)
-    error = ""
+
     if(request.POST):
         login_data = request.POST.dict()
         mail = login_data.get("email_id")
@@ -24,9 +24,9 @@ def login_page(request):
         password = login_data.get("password")
         try:
             data = Patient.objects.get(email_id = mail)
+
             if check_password(password, data.password):
                 request.session['emailid'] = str(mail)
-                # return patient_page(request)
                 request.session.set_expiry(600)
                 return redirect('/patient/', request=request)
             else:
@@ -35,7 +35,9 @@ def login_page(request):
         except Patient.DoesNotExist as e:
             error = "Email id is wrong"
 
-    return render(request, 'app/login_page.html', {"error": error, "success": success})
+    request.session['error'] = error
+    request.session['success'] = success
+    return render(request, 'app/login_page.html')
 
 def logout(request):
     request.session.flush()
@@ -93,8 +95,7 @@ def register_page(request):
             )
             request.session['emailid'] = register_data.get("email_id")
             return redirect('/patient/', request=request)
-            # return render(request, 'app/login_page.html')
-
+            
     except Exception as e:
         print(e)
 
@@ -147,49 +148,19 @@ def doctor_page(request):
     if 'emailid' not in request.session:
         return redirect('/login/')
 
-    # register_data = request.POST.dict()
-    # request.session['doctorname'] = register_data.get("name")
-    # request.session['doctorid'] = register_data.get("patient_id")
-
     request.session['doctorname'] = request.session['patient'].name
     request.session['doctorid'] = request.session['patient'].patient_id
 
-    # context = {
-    #     "title": "Doctor",
-    #     "name": name,
-    #     "patient_id": patient_id
-    # }
     return render(request, 'app/doctor_page.html')
 
 def paramedics_page(request):
     if 'emailid' not in request.session:
         return redirect('/login/')
 
-    # register_data = request.POST.dict()
-    # request.session['doctorname'] = register_data.get("name")
-    # request.session['doctorid'] = register_data.get("patient_id")
-
     request.session['paramedicname'] = request.session['patient'].name
     request.session['paramedicid'] = request.session['patient'].patient_id
 
-    # context = {
-    #     "title": "Doctor",
-    #     "name": name,
-    #     "patient_id": patient_id
-    # }
     return render(request, 'app/peramedics_page.html')
-
-    # register_data = request.POST.dict()
-    # name = register_data.get("name")
-    # patient_id = register_data.get("patient_id")
-
-    # context = {
-    #     "title": "Paramedics",
-    #     "name": name,
-    #     "patient_id": patient_id
-    # }
-
-    # return render(request, 'app/peramedics_page.html', context)
 
 def get_patient_data(request):
     if(request.POST):
@@ -202,20 +173,12 @@ def get_patient_data(request):
             request.session["health"] = health_info
             if "error" in request.session:
                 del request.session['error']
-            # context= {
-            #     "data": data,
-            #     "patient_id": register_data.get("patient_id"),
-            #     "name": register_data.get("name")
-            # }
-
-            # return render(request, 'app/doctor_page.html')
                 
         except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as e:
             print("error")
             request.session['error'] = "Data not found"
 
     return redirect('/doctor/') 
-    # return render(request, 'app/doctor_page.html')
 
 def get_patient_data_paramedics(request):
     if(request.POST):
@@ -232,24 +195,6 @@ def get_patient_data_paramedics(request):
             request.session['error'] = "Data not found"
             
     return redirect('/paramedics/') 
-    
-    # if(request.POST):
-    #     register_data = request.POST.dict()
-    #     mail = register_data.get("email_id")
-    #     try:
-    #         patient = Patient.objects.get(email_id = mail)
-    #         filedata = HealthInfo.objects.get(patient_id = patient)
-    #         context = {
-    #             "data": filedata,
-    #             "patient_id": register_data.get("patient_id"),
-    #             "name": register_data.get("name"),
-    #             "patient_name": patient.name
-    #         }
-    #         return render(request, 'app/peramedics_page.html', context)
-                
-    #     except Patient.DoesNotExist as e:
-    #         print("error")
-    # return render(request, 'app/peramedics_page.html')
 
 def register_doctor(request):
     if request.POST:
@@ -308,8 +253,7 @@ def register_paramedics(request):
             del request.session['patient_check'] 
 
         return redirect('/patient')
-        # return render(request, 'app/patient_page.html', patient)
-
+       
     return render(request, 'app/peramedics_register.html')
 
 def get_health_info(request):
@@ -485,26 +429,16 @@ def forget_password(request):
             data_mail = data.email_id
         except Patient.DoesNotExist as e:
             error = "Email id is wrong"
-        
-        # msg = "Click below link to reset password"+"\n\n"+"http://127.0.0.1:8000/resetpassword/"
-
-        
+         
         if mail == data_mail:
             success = "Link has been send"
             
-            # replace this two line with send mail logic
-            # send_mail(
-            #     'Reset Password',
-            #     msg,
-            #     'dig786335@gmail.com',
-            #     [mail],
-            #     fail_silently=False,
-            # )
+            request.session['emailid'] = mail
+            return redirect('/resetpassword/')
 
-            request.session['emailid'] = str(mail)
-            return redirect('/resetpassword/', request=request)
-
-    return render(request, 'app/forget_password.html', {"error": error, "success": success})
+    request.session['error'] = error
+    request.session['success'] = success
+    return render(request, 'app/forget_password.html')
 
 def reset_password(request):
 
@@ -512,12 +446,11 @@ def reset_password(request):
         return redirect('/login/')
 
     mail = request.session['emailid']
-    # print(mail)
-
+ 
     if request.POST:
         reset_password = request.POST.dict()
         new_passsword = reset_password.get('password')
-        print(new_passsword)
+        # print(new_passsword)
         data = Patient.objects.get(email_id = mail)
 
         data.password = make_password(new_passsword)
@@ -525,8 +458,7 @@ def reset_password(request):
         
         request.session['success_pwd'] = "Password Reset Successfully"
         
-        return redirect('/login/', request=request)
-
+        return redirect('/login/')
 
     return render(request, 'app/reset_password.html')
 

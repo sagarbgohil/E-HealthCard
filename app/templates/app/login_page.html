@@ -1,18 +1,18 @@
 {% extends 'app/base_signup_in_page.html' %}    
     {% block content %}
             <div class="mt-5"></div>
-            {% if error %}
+            {% if request.session.error %}
                 <div class="heading p-1 text-center">
                     <div class="isa_error">
                     <i class="fa fa-times-circle"></i>
-                        {{ error }}
+                        {{ request.session.error }}
                     </div>
                 </div>
-            {% elif success %}
+            {% elif request.session.success %}
                 <div class="heading p-1 text-center">
                     <div class="isa_success">
                     <i class="fa fa-check"></i>
-                        {{ success }}
+                        {{ request.session.success }}
                     </div>
                 </div>
             {% endif %}

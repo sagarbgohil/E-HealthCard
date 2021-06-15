@@ -25,8 +25,6 @@
          <div class="products"> <label for="email_id">Email:</label> </div>
          <span class="status"> 
           <input style="width: max-content;" type="email" class="form-control shadow-none" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus>
-          <!-- <input type="hidden" name="patient_id" value="{{ patient_id }}"  />
-          <input type="hidden" name="name" value="{{ name }}"  /> -->
           </span>
           <div class="button-wrapper">
             <button class="content-button status-button open">Find Data</button>
@@ -50,11 +48,6 @@
               <form action="{% url 'addfiledata' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
               {% csrf_token %}
               <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pname" id="pname" placeholder="name@example.com" aria-describedby="emailHelpBlock" value="{{ request.session.data.name }}" autofocus disabled>
-              <!-- <input style="width: max-content;" type="hidden" class="form-control shadow-none" name="patient_id" id="patient_id" value="{{ data.patient_id }}" autofocus>
-              <input style="width: max-content;" type="hidden" class="form-control shadow-none" name="doctor_patient_id" id="doctor_patient_id" value="{{ patient_id }}" autofocus> -->
-              <!-- <input type="hidden" name="patient_id" value="{{ data.patient_id }}" />
-              <input type="hidden" name="doctor_patient_id" value="{{ patient_id }}"  />
-              </span> -->
               <div style="float: left; margin-left: 102mm;" class="button-wrapper">
               </div>
           </li>
