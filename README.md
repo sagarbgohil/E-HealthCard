@@ -1,6 +1,8 @@
 ## Table of contents
 * [Abstract](#abstract)
 * [Modules](#modules)
+* [Problem](#problem)
+* [Objective](#objective)
 * [Setup](#setup)
 
 ## Abstract
@@ -17,7 +19,17 @@ Our system has four major modules.:
 * Patient
 * Doctor
 * Paramedics
-	
+
+
+## Problem
+No globally available database housing medical history of a patient. Most
+solutions are limited to a single entity. Not having the proper information
+about the medical history of the patient usually slows down treatment.
+
+## Objective
+To provide the necessary personnel with the necessary information about a
+patient’s medical history in order to treat him/her better.
+
 ## Setup
 To run this project:
 
