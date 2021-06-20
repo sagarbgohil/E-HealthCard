@@ -26,7 +26,11 @@ SECRET_KEY = 'mlc5wmfll8^a)4l&^7dgvzpp+1revuux0jb*-9(bd^swzkhu(9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+    'e-health-card.herokuapp.com',
+    '127.0.0.1'
+]
 
 
 # Application definition
