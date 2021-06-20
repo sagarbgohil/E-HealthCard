@@ -9,6 +9,7 @@ from datetime import date
 from django.http import HttpResponse
 from django.template import loader
 from django.core.mail import send_mail
+from django.core.serializers import serialize
 
 def login_page(request):
 
@@ -138,9 +139,11 @@ def patient_page(request):
         request.session['patient_check'] = 'yes'
         print("patient")
 
-    request.session['patient'] = data
+    # request.session['patient'] = data
+    request.session['patient'] = serialize('json', data)
     request.session['add'] = add
-    request.session['phone_number'] = phone_number
+    # request.session['phone_number'] = phone_number
+    request.session['phone_number'] = serialize('json', phone_number)
 
     return render(request, 'app/patient_page.html')
 
@@ -169,8 +172,8 @@ def get_patient_data(request):
         try:
             data = Patient.objects.get(email_id = mail)
             health_info = HealthInfo.objects.get(patient_id = data)
-            request.session["data"] = data
-            request.session["health"] = health_info
+            request.session["data"] = serialize('json', data)
+            request.session["health"] = serialize('json', health_info)
             if "error" in request.session:
                 del request.session['error']
                 
@@ -187,8 +190,8 @@ def get_patient_data_paramedics(request):
         try:
             data = Patient.objects.get(email_id = mail)
             health_info = HealthInfo.objects.get(patient_id = data)
-            request.session["data"] = data
-            request.session["health"] = health_info
+            request.session["data"] = serialize('json', data)
+            request.session["health"] = serialize('json', health_info)
             del request.session['error']
         except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as e:
             print("error")
@@ -263,7 +266,7 @@ def get_health_info(request):
         patient_id = request.session['patient'].patient_id
         patient = Patient.objects.get(patient_id = patient_id)
         data = HealthInfo.objects.get(patient_id = patient)
-        request.session['healthinfo'] = data
+        request.session['healthinfo'] = serialize('json', data)
     except (Patient.DoesNotExist, HealthInfo.DoesNotExist) as a:
         if 'healthinfo' in request.session:
             del request.session['healthinfo'] 
@@ -281,7 +284,7 @@ def get_file_data(request):
         patient = Patient.objects.get(patient_id = patient_id)
         data = File.objects.filter(patient_id = patient)
         print(data)
-        request.session['filedata'] = data
+        request.session['filedata'] = serialize('json', data)
 
     except (Patient.DoesNotExist, File.DoesNotExist) as a:
         if 'filedata' in request.session:
@@ -328,7 +331,7 @@ def add_health_info(request):
             medication = medication
         )
         data = HealthInfo.objects.get(patient_id = patient)
-        request.session['healthinfo'] = data
+        request.session['healthinfo'] = serialize('json', data)
         return redirect('/gethealthinfo/')
 
     return render(request, 'app/health_info_page.html')
@@ -360,7 +363,6 @@ def add_file_info(request):
 
         if 'errorfield' in request.session:
             del request.session['errorfield']
-
 
         patient = Patient.objects.get(patient_id = patient_id)
         doctor = Doctor.objects.get(patient_id = doctor_id)
@@ -400,7 +402,6 @@ def edit_patient_data(request):
         phone_data.phone_number = phone
         phone_data.save()
 
-
         data.address_1 = request_data.get('add')
         data.city = request_data.get('city')
         data.state = request_data.get('state')
@@ -408,8 +409,8 @@ def edit_patient_data(request):
         data.pincode = request_data.get('pincode')
 
         data.save()        
-        request.session['patient'] = data
-        request.session['phone_number'] = phone_data
+        request.session['patient'] = serialize('json', data)
+        request.session['phone_number'] = serialize('json', phone_data)
 
         request.session['emailid'] = data.email_id
         return redirect('/patient/')
