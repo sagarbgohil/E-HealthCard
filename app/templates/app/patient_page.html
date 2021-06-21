@@ -13,7 +13,7 @@
      <ul>
       <li class="adobe-product">
        <div class="products"> Full Name: </div>
-       <span class="status"> {{ request.session.patient.name }} </span>
+       <span class="status"> {{ request.session.patient.fields.name }} </span>
        <div class="button-wrapper">
         </div>
       </li>
@@ -22,7 +22,7 @@
       <ul>
       <li class="adobe-product">
         <div class="products"> Email ID: </div>
-        <span class="status"> {{ request.session.patient.email_id }} </span>
+        <span class="status"> {{ request.session.patient.fields.email_id }} </span>
         <div class="button-wrapper">
         </div>
        </li>
@@ -30,7 +30,7 @@
       <ul>
         <li class="adobe-product">
           <div class="products"> Adhaar Number: </div>
-          <span class="status"> {{ request.session.patient.adhaar_number }} </span>
+          <span class="status"> {{ request.session.patient.fields.adhaar_number }} </span>
           <div class="button-wrapper">
 
           </div>
@@ -39,7 +39,7 @@
         <ul>
           <li class="adobe-product">
            <div class="products"> DOB: </div>
-           <span class="status"> {{ request.session.patient.birth_date }} </span>
+           <span class="status"> {{ request.session.patient.fields.birth_date }} </span>
            <div class="button-wrapper">
 
            </div>
@@ -49,7 +49,7 @@
         <ul>
           <li class="adobe-product">
            <div class="products"> Gender: </div>
-           <span class="status"> {{ request.session.patient.gender }} </span>
+           <span class="status"> {{ request.session.patient.fields.gender }} </span>
            <div class="button-wrapper">
 
            </div>
@@ -58,7 +58,7 @@
          <ul>
           <li class="adobe-product">
            <div class="products"> Phone Number: </div>
-           <span class="status"> {{ request.session.phone_number.phone_number }} </span>
+           <span class="status"> {{ request.session.phone_number.fields.phone_number }} </span>
            <div class="button-wrapper">
 
            </div>

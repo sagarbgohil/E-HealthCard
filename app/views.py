@@ -9,7 +9,13 @@ from datetime import date
 from django.http import HttpResponse
 from django.template import loader
 from django.core.mail import send_mail
+
+# FOR serialization
+import json
+from django.forms.models import model_to_dict
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
+
 
 def login_page(request):
 
@@ -139,11 +145,17 @@ def patient_page(request):
         request.session['patient_check'] = 'yes'
         print("patient")
 
+
     # request.session['patient'] = data
-    request.session['patient'] = serialize('json', data)
+    data_array = serialize('json', [data], ensure_ascii=False)
+    data = data_array[1:-1]
+    phone_array = serialize('json', [phone_number], ensure_ascii=False)
+    phone = phone_array[1:-1]
+    
+    request.session['patient'] = json.loads(data)
     request.session['add'] = add
     # request.session['phone_number'] = phone_number
-    request.session['phone_number'] = serialize('json', phone_number)
+    request.session['phone_number'] = json.loads(phone)
 
     return render(request, 'app/patient_page.html')
 
