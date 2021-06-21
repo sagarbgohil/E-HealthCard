@@ -27,7 +27,7 @@ SECRET_KEY = 'mlc5wmfll8^a)4l&^7dgvzpp+1revuux0jb*-9(bd^swzkhu(9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'e-health-card.herokuapp.com',
+    'e-healthcard.herokuapp.com',
     '127.0.0.1'
 ]
 
