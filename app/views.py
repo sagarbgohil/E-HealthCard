@@ -269,7 +269,7 @@ def register_doctor(request):
         max_id = str(max_id).zfill(10) if max_id is not None else 1
         
         # combine data into fullname
-        patient_id = request.session['patient'].patient_id
+        patient_id = request.session['patient']['pk']
         hospital_name = register_data.get("hospital_name")
         designation = register_data.get("designation")
         licence_id = register_data.get("licence_id")
@@ -304,7 +304,7 @@ def register_paramedics(request):
         max_id = str(max_id).zfill(10) if max_id is not None else 1
         
         # getting paramedic's basic information from database
-        patient_id = request.session['patient'].patient_id
+        patient_id = request.session['patient']['pk']
         patient = Patient.objects.get(patient_id = patient_id)
 
         license_id = register_data.get("licence_id")
