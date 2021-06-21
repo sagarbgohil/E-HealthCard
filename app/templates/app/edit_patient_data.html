@@ -15,7 +15,7 @@
       {% csrf_token %}
       <li class="adobe-product">
        <div class="products"> Full Name: </div>
-       <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="fullname" id="fullname" placeholder="Enter Full Name" value="{{ request.session.patient.name }}" aria-describedby="emailHelpBlock" autofocus disabled> </span>
+       <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="fullname" id="fullname" placeholder="Enter Full Name" value="{{ request.session.patient.fields.name }}" aria-describedby="emailHelpBlock" autofocus disabled> </span>
        <div class="button-wrapper">
       
         </div>
@@ -25,7 +25,7 @@
       <ul>
       <li class="adobe-product">
         <div class="products"> Email ID: </div>
-        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="mail" id="mail" placeholder="Enter Email ID" value="{{ request.session.patient.email_id }}" aria-describedby="emailHelpBlock" autofocus disabled>  </span>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="mail" id="mail" placeholder="Enter Email ID" value="{{ request.session.patient.fields.email_id }}" aria-describedby="emailHelpBlock" autofocus disabled>  </span>
         <div class="button-wrapper">
          
         </div>
@@ -34,7 +34,7 @@
          <ul>
           <li class="adobe-product">
            <div class="products"> Phone Number: </div>
-           <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="phonenum" id="phonenum" placeholder="Enter phone number" value="{{ request.session.phone_number.phone_number }}" aria-describedby="emailHelpBlock" autofocus>  </span>
+           <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="phonenum" id="phonenum" placeholder="Enter phone number" value="{{ request.session.phone_number.fields.phone_number }}" aria-describedby="emailHelpBlock" autofocus>  </span>
            <div class="button-wrapper">
             
            </div>
@@ -43,7 +43,7 @@
       <ul>
        <li class="adobe-product">
         <div class="products"> Address </div>
-        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="add" id="add" placeholder="Enter address" value="{{ request.session.patient.address_1 }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="add" id="add" placeholder="Enter address" value="{{ request.session.patient.fields.address_1 }}" aria-describedby="emailHelpBlock" autofocus> </span>
         <div class="button-wrapper">
          
         </div>
@@ -52,7 +52,7 @@
       <ul>
        <li class="adobe-product">
         <div class="products"> City </div>
-        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="city" id="city" placeholder="Enter City" value="{{ request.session.patient.city }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="city" id="city" placeholder="Enter City" value="{{ request.session.patient.fields.city }}" aria-describedby="emailHelpBlock" autofocus> </span>
         <div class="button-wrapper">
          
         </div>
@@ -61,7 +61,7 @@
       <ul>
        <li class="adobe-product">
         <div class="products"> State </div>
-        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="state" id="state" placeholder="Enter State" value="{{ request.session.patient.state }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="state" id="state" placeholder="Enter State" value="{{ request.session.patient.fields.state }}" aria-describedby="emailHelpBlock" autofocus> </span>
         <div class="button-wrapper">
          
         </div>
@@ -70,7 +70,7 @@
       <ul>
        <li class="adobe-product">
         <div class="products"> Country </div>
-        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="country" id="country" placeholder="Enter Country" value="{{ request.session.patient.country }}" aria-describedby="emailHelpBlock" autofocus> </span>
+        <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="country" id="country" placeholder="Enter Country" value="{{ request.session.patient.fields.country }}" aria-describedby="emailHelpBlock" autofocus> </span>
         <div class="button-wrapper">
          
         </div>
@@ -79,7 +79,7 @@
       <ul>
         <li class="adobe-product">
          <div class="products"> Pincode </div>
-         <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pincode" id="pincode" placeholder="Enter Pincode" value="{{ request.session.patient.pincode }}" aria-describedby="emailHelpBlock" autofocus> </span>
+         <span class="status"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pincode" id="pincode" placeholder="Enter Pincode" value="{{ request.session.patient.fields.pincode }}" aria-describedby="emailHelpBlock" autofocus> </span>
          <div class="button-wrapper">
           
          </div>

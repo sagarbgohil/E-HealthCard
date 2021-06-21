@@ -13,33 +13,33 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> Height: </div>
-                <span class="status"> {{ request.session.healthinfo.height }} </span>
+                <span class="status"> {{ request.session.healthinfo.fields.height }} </span>
             </li>
         </ul>
 
         <ul>
             <li class="adobe-product">
                 <div class="products"> Weight: </div>
-                <span class="status"> {{ request.session.healthinfo.weight }} </span>
+                <span class="status"> {{ request.session.healthinfo.fields.weight }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Blood Group: </div>
-                <span class="status"> {{ request.session.healthinfo.blood_grp }} </span>
+                <span class="status"> {{ request.session.healthinfo.fields.blood_grp }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Emergency Number: </div>
-                <span class="status"> {{ request.session.healthinfo.emergency_num }} </span>
+                <span class="status"> {{ request.session.healthinfo.fields.emergency_num }} </span>
             </li>
         </ul>
             
         <ul>
             <li class="adobe-product">
                 <div class="products"> Medication: </div>
-                <span class="status"> {{ request.session.healthinfo.medication }} </span>
+                <span class="status"> {{ request.session.healthinfo.fields.medication }} </span>
             </li>
         </ul>
         </div>

@@ -47,7 +47,7 @@
             <div class="products"> <label for="pname">Patient Name:</label> </div>
               <form action="{% url 'addfiledata' %}" id="myForm" name="doctorForm" autocomplete="off" method="POST"> 
               {% csrf_token %}
-              <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pname" id="pname" placeholder="name@example.com" aria-describedby="emailHelpBlock" value="{{ request.session.data.name }}" autofocus disabled>
+              <span class="status" style="float: left; margin-left: 65mm;"> <input style="width: max-content;" type="text" class="form-control shadow-none" name="pname" id="pname" placeholder="name@example.com" aria-describedby="emailHelpBlock" value="{{ request.session.data.fields.name }}" autofocus disabled>
               <div style="float: left; margin-left: 102mm;" class="button-wrapper">
               </div>
           </li>
@@ -87,7 +87,7 @@
           <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="blood_grp">Blood Group:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;">  {{ request.session.health.blood_grp }} </span>
+                    <span class="status" style="float: left; margin-left: 65mm;">  {{ request.session.health.fields.blood_grp }} </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
                 
@@ -96,7 +96,7 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="emergency_num">Emergency Number:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> {{ request.session.health.emergency_num }} </span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> {{ request.session.health.fields.emergency_num }} </span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
                 
@@ -105,7 +105,7 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> <label for="medicine">Medicine:</label> </div>
-                    <span class="status" style="float: left; margin-left: 65mm;"> {{ request.session.health.medication }}</span>
+                    <span class="status" style="float: left; margin-left: 65mm;"> {{ request.session.health.fields.medication }}</span>
                     <div style="float: left; margin-left: 102mm;" class="button-wrapper">
                     </div>
             </li>

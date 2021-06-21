@@ -25,8 +25,8 @@
            <div class="products"> <label for="email_id">Email:</label> </div>
            <span class="status"> 
             <input style="width: max-content;" type="email" class="form-control shadow-none" name="email_id" id="email_id" placeholder="name@example.com" aria-describedby="emailHelpBlock" autofocus>
-            <input type="hidden" name="patient_id" value="{{ patient_id }}"  />
-            <input type="hidden" name="name" value="{{ name }}"  />
+            <!-- <input type="hidden" name="patient_id" value="{{ patient_id }}"  /> -->
+            <!-- <input type="hidden" name="name" value="{{ name }}"  /> -->
             </span>
             <div class="button-wrapper">
               <button class="content-button status-button open">Find Data</button>
@@ -47,26 +47,26 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> Patient Name: </div>
-                <span class="status"> {{ request.session.data.name }} </span>
+                <span class="status"> {{ request.session.data.fields.name }} </span>
             </li>
         </ul>
 
         <ul>
             <li class="adobe-product">
                 <div class="products"> Blood Group: </div>
-                <span class="status"> {{ request.session.health.blood_grp }} </span>
+                <span class="status"> {{ request.session.health.fields.blood_grp }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Emergency Number : </div>
-                <span class="status"> {{ request.session.health.emergency_num }} </span>
+                <span class="status"> {{ request.session.health.fields.emergency_num }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Medication: </div>
-                <span class="status"> {{ request.session.health.medication }} </span>
+                <span class="status"> {{ request.session.health.fields.medication }} </span>
             </li>
         </ul>
         {% endif %}

@@ -14,32 +14,32 @@
         <ul>
             <li class="adobe-product">
                 <div class="products"> File Number: </div>
-                <span class="status"> {{ d }} </span>
+                <span class="status"> {{ d.pk }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Symptoms: </div>
-                <span class="status"> {{ d.symptoms }} </span>
+                <span class="status"> {{ d.fields.symptoms }} </span>
             </li>
         </ul>
 
         <ul>
             <li class="adobe-product">
                 <div class="products"> Diagnosis: </div>
-                <span class="status"> {{ d.diagnosis }} </span>
+                <span class="status"> {{ d.fields.diagnosis }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Prescribed medicine: </div>
-                <span class="status"> {{ d.prescribed_medicine }} </span>
+                <span class="status"> {{ d.fields.prescribed_medicine }} </span>
             </li>
         </ul>
         <ul>
             <li class="adobe-product">
                 <div class="products"> Notes: </div>
-                <span class="status"> {{ d.notes }} </span>
+                <span class="status"> {{ d.fields.notes }} </span>
             </li>
         </ul>
         {% endfor %}
